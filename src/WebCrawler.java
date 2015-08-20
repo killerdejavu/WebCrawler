@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class WebCrawler {
 
-    protected static final String STARTING_URL_DEFAULT="http://python.org";
-    protected static final int MAX_LINKS_DEFAULT=1000;
+    protected static final String STARTING_URL_DEFAULT="http://yclist.com";
+    protected static final int MAX_LINKS_DEFAULT=10000;
     private String _startingUrl;
     private int _maxLinks;
     private int _currentLinkIndex;
@@ -41,19 +41,23 @@ public class WebCrawler {
     private void crawler(String URL) {
         try{
             Document document = Jsoup.connect(URL).get();
-            Elements elements = document.select("a[href]");
+            Elements elements = document.select("a");
             for (Element element : elements){
                 if(!_linkRepository.contains(element.attr("abs:href"))){
                     if(_linkRepository.size()>=_maxLinks) break;
                     _linkRepository.add(element.attr("abs:href"));
-                    System.out.println("Link " + element.attr("abs:href") + " added to the repository ");
+                    if(element.text().contains("career") || element.text().contains("job") || element.text().contains("jobs") || element.text().contains("careers") || element.text().contains("about") || element.text().contains("team")){
+                        System.out.println(element.attr("abs:href"));
+                    }
+                    //System.out.println("Link " + element.attr("abs:href") + " added to the repository ");
                 }
             }
             _linksTraversed.add(URL);
-            System.out.println("Link " + URL + " parsed");
+            //System.out.println("Link " + URL + " parsed");
+            
         }
         catch (Exception e){
-            System.out.println("Link " +URL+ " couldn't be parsed !");
+            //System.out.println("Link " +URL+ " couldn't be parsed !");
             _badLinkRepository.add(URL);
         }
         finally {
