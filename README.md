@@ -1,3 +1,8 @@
+What is it
+========================
+This is a very basic crawler program, which takes a starting url, and outputs all the links,
+crawled from that url. You can also specify the number of max-urls you want to crawl
+
 How to run the crawler
 =========================
 
